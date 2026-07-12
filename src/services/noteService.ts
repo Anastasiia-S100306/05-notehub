@@ -16,7 +16,7 @@ export interface FetchNotesProps {
 const api: AxiosInstance = axios.create({
     baseURL: "https://notehub-public.goit.study/api",
     headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hc3Rhc2lkb3J1azc0QGdtYWlsLmNvbSIsImlhdCI6MTc4MzcyMzM1M30.vFlMJjs2sSfHctTxhcZTnyT3_uGe3moBNQbzwzQ_C0A`
+       Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN || ""}`,
     }
 })
 

@@ -4,11 +4,12 @@ import babel from '@rolldown/plugin-babel'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/05-notehub/",   
   plugins: [
-    react(),
-    babel({ presets: [reactCompilerPreset()] })
-  ],
+    react(),              
+    babel({ presets: [reactCompilerPreset()] }) 
+  ],                      
   build: {
     sourcemap: true,
-  },
+  }
 })

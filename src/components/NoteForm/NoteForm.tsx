@@ -15,7 +15,7 @@ interface NoteFormValues {
 const initialValues: NoteFormValues = {
     title: "",
     content: "",
-    tag: "",
+    tag: "Todo",
 }
 
 interface NoteFormProps {
@@ -48,7 +48,7 @@ export default function NoteForm({onClose}: NoteFormProps) {
             onClose();
         },
          onError: () => {
-            toast.error("Field to create note");
+            toast.error("Failed to create note");
         }
     })
 
