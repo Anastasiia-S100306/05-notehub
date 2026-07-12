@@ -1,42 +1,58 @@
-import axios, {type AxiosInstance} from "axios";
-import type {CreateNotesProps, Note} from "../types/note.ts";
+import axios from 'axios';
+import type { Note, NoteTag } from '../types/note';
 
-const PER_PAGE = 10;
+const token = import.meta.env.VITE_NOTEHUB_TOKEN;
 
-export interface NoteServiceResponse {
-    notes: Note[];
-    totalPages: number;
+const noteHubApi = axios.create({
+  baseURL: 'https://notehub-public.goit.study/api',
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+export interface FetchNotesParams {
+  page: number;
+  perPage: number;
+  search?: string;
 }
 
-export interface FetchNotesProps {
-    search: string;
-    page: number;
+export interface FetchNotesResponse {
+  notes: Note[];
+  totalPages: number;
 }
 
-const api: AxiosInstance = axios.create({
-    baseURL: "https://notehub-public.goit.study/api",
-    headers: {
-       Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hc3Rhc2lkb3J1azc0QGdtYWlsLmNvbSIsImlhdCI6MTc4MzcyMzM1M30.vFlMJjs2sSfHctTxhcZTnyT3_uGe3moBNQbzwzQ_C0A"}`,
-    }
-})
-
-export const fetchNotes = async ({search, page}: FetchNotesProps): Promise<NoteServiceResponse> => {
-    const { data } = await api.get<NoteServiceResponse>("/notes", {
-        params: {
-            search,
-            page,
-            perPage: PER_PAGE,
-        }
-    });
-    return data;
+export interface CreateNotePayload {
+  title: string;
+  content: string;
+  tag: NoteTag;
 }
 
-export const createNote = async (noteData: CreateNotesProps): Promise<Note> => {
-    const { data } = await api.post<Note>("/notes", noteData);
-    return data;
-}
+export const fetchNotes = async ({
+  page,
+  perPage,
+  search,
+}: FetchNotesParams): Promise<FetchNotesResponse> => {
+  const { data } = await noteHubApi.get<FetchNotesResponse>('/notes', {
+    params: {
+      page,
+      perPage,
+      ...(search ? { search } : {}),
+    },
+  });
 
-export const deleteNote = async (id: string): Promise<Note> => {
-    const { data } = await api.delete<Note>(`/notes/${id}`);
-    return data;
-}
+  return data;
+};
+
+export const createNote = async (
+  newNote: CreateNotePayload,
+): Promise<Note> => {
+  const { data } = await noteHubApi.post<Note>('/notes', newNote);
+
+  return data;
+};
+
+export const deleteNote = async (noteId: string): Promise<Note> => {
+  const { data } = await noteHubApi.delete<Note>(`/notes/${noteId}`);
+
+  return data;
+};

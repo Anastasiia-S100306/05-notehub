@@ -7,7 +7,7 @@ export interface Note {
     tag: string
 }
 
-// export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
+ export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 
 export interface CreateNotesProps {
     title: string;
