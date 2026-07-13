@@ -5,11 +5,12 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createNote} from "../../services/noteService.ts";
 import toast from "react-hot-toast";
 import {useId} from "react";
+import type { NoteTag } from "../../types/note.ts";
 
 interface NoteFormValues {
     title: string;
     content: string;
-    tag: string;
+    tag: NoteTag;
 }
 
 const initialValues: NoteFormValues = {
