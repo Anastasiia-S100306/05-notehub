@@ -9,7 +9,7 @@ export interface Note {
   tag: NoteTag;
 }
 
-export interface CreateNotesProps {
+export interface NewNote {
   title: string;
   content: string;
   tag: NoteTag;
